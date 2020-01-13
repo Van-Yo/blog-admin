@@ -1,0 +1,18 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+.login-div{
+    width: 400px;
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    height:100px;
+    margin-left:-200px;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
