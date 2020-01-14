@@ -2,9 +2,11 @@ import React,{useState} from 'react'
 import 'antd/dist/antd.css';
 import { Card, Input, Icon,Button ,Spin ,message } from 'antd';
 import '../static/css/Login.css';
-import axios from 'axios'
+import {withRouter} from "react-router-dom";
+import UserRequest from '../requests/modules/user'
+import Storage from '../utils/storage'
 
-export default function Login(props) {
+function Login(props) {
     const [userName , setUserName] = useState('')
     const [password , setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -23,15 +25,12 @@ export default function Login(props) {
             },500)
             return
         }
-        axios({
-            method: 'post',
-            url: 'http://localhost:3100/user/login',
-            data: {
-                us: userName,
-                ps: password
-            }
+        UserRequest.userLoginRequest({
+            us: userName,
+            ps: password
         }).then(res=>{
             if(res.data.code === 0){
+                Storage.setUserInfoSs(res.data.data[0])
                 setIsLoading(false)
                 props.history.push('/index')
             }else{
@@ -69,3 +68,4 @@ export default function Login(props) {
         </div>
     )
 }
+export default withRouter(Login)

@@ -4,7 +4,7 @@ import {Row,Col,Input,Select,Button,DatePicker} from 'antd'
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
-import axios from 'axios'
+import BlogRequest from '../requests/modules/blog'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -54,18 +54,14 @@ const AddArticle = () => {
 
     const addBlog = () =>{
         let data = {
-            'title':markdownContent,
-            'category':selectedType,
-            'hot':0,
-            'content':articleContent,
-            'brief':introducemd,
-            'date':showDate
+            title:markdownContent,
+            category:selectedType,
+            hot:1,
+            content:articleContent,
+            brief:introducemd,
+            date:showDate
         }
-        axios.post('http://localhost:3100/blogList/addBlog',data,{
-            headers:{
-				'Content-Type':'application/x-www-form-urlencoded'
-			}
-          }).then(res=>{
+        BlogRequest.addBlogRequest(data).then(res=>{
             console.log(res)
         })
     }
