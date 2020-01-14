@@ -7,11 +7,11 @@ export default function Main() {
     return (
         <div>
             <Router>
-                <Route path="/login/">
-                    <Login/>
-                </Route>
-                <Route path="/index/">
+                <Route path="/index">
                     <Index/>
+                </Route>
+                <Route path="/" exact>
+                    <Login/>
                 </Route>
             </Router>
         </div>
