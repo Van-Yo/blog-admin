@@ -8,7 +8,8 @@ class Api {
     getApiList(){
         let apiList = {
             userLoginApi : this.baseUrl + '/user/login',    //用户登录
-            blogAddBlogApi : this.baseUrl + '/blogList/addBlog'     // 新增博客
+            blogAddBlogApi : this.baseUrl + '/blogList/addBlog',     // 新增博客
+            blogGetBlogCategoryApi : this.baseUrl + '/category/getCategoryList'     // 获取博客分类
         };
         return apiList
     }

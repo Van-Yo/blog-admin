@@ -7,7 +7,7 @@
     border:1px solid #ddd;
     border-radius: 5px;
     font-size:16px;
-    height: 745px;
+    height: 418px;
     background-color: #f0f0f0;
     overflow: auto;
 }
@@ -218,4 +218,9 @@ iframe{
 }
 .ant-anchor-wrapper{
     padding: 5px !important;
+}
+.logo span{
+    width: 66% !important;
+    height: auto !important;
+    min-width: 50px !important;
 }

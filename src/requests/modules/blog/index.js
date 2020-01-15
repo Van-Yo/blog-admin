@@ -9,5 +9,9 @@ class BlogRequest{
     addBlogRequest(data){
         return http.post(this.apiList.blogAddBlogApi,data)
     }
+    // 获取博客分类
+    getBlogCategoryRequest(){
+        return http.get(this.apiList.blogGetBlogCategoryApi)
+    }
 }
 export default new BlogRequest()

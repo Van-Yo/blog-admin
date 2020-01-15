@@ -1,6 +1,6 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import '../static/css/AddArticle.css'
-import {Row,Col,Input,Select,Button,DatePicker} from 'antd'
+import {Row,Col,Input,Select,Button,message} from 'antd'
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
@@ -18,11 +18,14 @@ const AddArticle = () => {
     const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
     const [introducemd,setIntroducemd] = useState()            //简介的markdown内容
     const [introducehtml,setIntroducehtml] = useState('等待编辑') //简介的html内容
-    const [showDate,setShowDate] = useState('2020-01-14')   //发布日期
-    const [updateDate,setUpdateDate] = useState() //修改日志的日期
+    // const [showDate,setShowDate] = useState('2020-01-14')   //发布日期
+    // const [updateDate,setUpdateDate] = useState() //修改日志的日期
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
-    const [selectedType,setSelectType] = useState(1) //选择的文章类别
+    const [selectedType,setSelectType] = useState('请选择分类') //选择的文章类别
 
+    /**
+     * marked && highlight
+    */
     const renderer = new marked.Renderer();
     marked.setOptions({
         renderer: renderer,
@@ -37,32 +40,71 @@ const AddArticle = () => {
         highlight: function (code) {
                 return hljs.highlightAuto(code).value;
         }
-
     }); 
 
+    /**
+     * 初始化，获取博客分类数据
+    */
+    useEffect(()=>{
+        getBlogCategory()
+    },[])
+
+    /**
+     * 四个方法，用于input,textarea,select的值变化时保存到useState中
+    */
     const changeContent = (e) => {
         setArticleContent(e.target.value)
         let html=marked(e.target.value)
         setMarkdownContent(html)
     }
-
     const changeIntroduce = (e) => {
         setIntroducemd(e.target.value)
         let html = marked(e.target.value)
         setIntroducehtml(html)
     }
+    const changeTitle = (e) => {
+        setArticleTitle(e.target.value)
+    }
+    const changeCategory = (value) => {
+        setSelectType(parseInt(value))
+    }
 
+    /**
+     * 获取博客分类
+    */
+    const getBlogCategory = () => {
+        BlogRequest.getBlogCategoryRequest().then(res => {
+            setTypeInfo(res.data)
+        })
+    }
+
+    /**
+     * 发布文章
+    */
     const addBlog = () =>{
         let data = {
-            title:markdownContent,
+            title:articleTitle,
             category:selectedType,
             hot:1,
             content:articleContent,
-            brief:introducemd,
-            date:showDate
+            brief:introducemd
+        }
+        if(selectedType==='请选择分类'){
+            message.error('请选择分类')
+            return
+        }else if(articleTitle === ''){
+            message.error('标题不能为空')
+            return
+        }else if(articleContent === ''){
+            message.error('内容不能为空')
+            return
         }
         BlogRequest.addBlogRequest(data).then(res=>{
-            console.log(res)
+            if(res.data.code === 0){
+                message.success('发布成功')
+            }else{
+                message.success('发布失败')
+            }
         })
     }
 
@@ -74,12 +116,20 @@ const AddArticle = () => {
                         <Col span={20}>
                             <Input 
                                 placeholder="博客标题" 
-                                size="large" />
+                                size="large"
+                                onChange={changeTitle}
+                            />
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select defaultValue="Sign Up" size="large">
-                                <Option value="Sign Up">视频教程</Option>
+                            <Select style={{ width:'95%' }} defaultValue={selectedType} size="large" onChange={changeCategory}>
+                                {
+                                    typeInfo.map((item,index)=>{
+                                        return (
+                                            <Option key={index} value={item.id}>{item.name}</Option>
+                                        )
+                                    })
+                                }
                             </Select>
                         </Col>
                     </Row>
@@ -88,7 +138,7 @@ const AddArticle = () => {
                         <Col span={12}>
                             <TextArea 
                                 className="markdown-content" 
-                                rows={35}  
+                                rows={17}  
                                 placeholder="文章内容"
                                 onChange = {changeContent}
                                 />
@@ -107,19 +157,9 @@ const AddArticle = () => {
 
                 <Col span={6}>
                     <Row>
-                        <Row type="flex" justify="space-between">
-                            <Col span={12}>
-                                <div className="date-select">
-                                    <DatePicker
-                                        placeholder="发布日期"
-                                        size="large"
-                                    />
-                                </div>
-                            </Col>
-                            
-                            <br/>
-                        </Row>
                         <Col span={24}>
+                            <br/>
+                            <br/>
                             <br/>
                             <TextArea 
                                 rows={4} 

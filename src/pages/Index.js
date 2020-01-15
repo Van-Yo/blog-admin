@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon ,Avatar} from 'antd';
 import '../static/css/AdminIndex.css';
 import {Route} from 'react-router-dom';
 import AddArticle from './AddArticle'
@@ -12,9 +12,11 @@ export default function Index() {
         setCollapsed(collapsed)
     }
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh',height:'100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <div className="logo" />
+            <div className="logo" >
+              <Avatar size={100} src="http://139.224.227.52/image/joker-logo.png"  />
+            </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 <Menu.Item key="1">
                 <Icon type="pie-chart" />
@@ -43,7 +45,7 @@ export default function Index() {
             </Menu>
             </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header style={{ background: '#fff', padding: 0 ,height:0}} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>后台管理</Breadcrumb.Item>
