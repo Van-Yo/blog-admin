@@ -1,16 +1,27 @@
 import React,{useState} from 'react'
 import { Layout, Menu, Breadcrumb, Icon ,Avatar} from 'antd';
 import '../static/css/AdminIndex.css';
-import {Route} from 'react-router-dom';
+import {Route,withRouter} from 'react-router-dom';
 import AddArticle from './AddArticle'
+import ArticleList from './ArticleList'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-export default function Index() {
+function Index(props) {
     const [collapsed,setCollapsed] = useState(false)
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     }
+    const handleClickArticle = e=>{
+      console.log(e.item.props)
+      if(e.key==='addArticle'){
+        props.history.push('/index/add')
+      }else{
+        props.history.push('/index/list')
+      }
+  
+    }
+
     return (
         <Layout style={{ minHeight: '100vh',height:'100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
@@ -28,6 +39,7 @@ export default function Index() {
                 </Menu.Item>
                 <SubMenu
                 key="sub1"
+                onClick={handleClickArticle}
                 title={
                     <span>
                     <Icon type="user" />
@@ -35,8 +47,8 @@ export default function Index() {
                     </span>
                 }
                 >
-                <Menu.Item key="3">添加文章</Menu.Item>
-                <Menu.Item key="4">文章列表</Menu.Item>
+                <Menu.Item key="addArticle">添加文章</Menu.Item>
+                <Menu.Item key="articleList">文章列表</Menu.Item>
                 </SubMenu>
                 <Menu.Item key="9">
                 <Icon type="file" />
@@ -53,8 +65,11 @@ export default function Index() {
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <div>
-                <Route path='/index/'>
+                <Route path='/index/add/'>
                   <AddArticle/>
+                </Route>
+                <Route path='/index/list/'>
+                  <ArticleList/>
                 </Route>
               </div>
             </div>
@@ -64,3 +79,4 @@ export default function Index() {
       </Layout>
     )
 }
+export default withRouter(Index)

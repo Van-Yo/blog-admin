@@ -13,5 +13,9 @@ class BlogRequest{
     getBlogCategoryRequest(){
         return http.get(this.apiList.blogGetBlogCategoryApi)
     }
+    // 获取博客列表
+    getBlogListRequest(){
+        return http.get(this.apiList.blogGetBlogListApi)
+    }
 }
 export default new BlogRequest()

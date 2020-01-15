@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import '../static/css/AddArticle.css'
 import {Row,Col,Input,Select,Button,message} from 'antd'
+import {withRouter} from 'react-router-dom';
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
@@ -11,8 +12,7 @@ const { TextArea } = Input
 
 
 
-const AddArticle = () => {
-    const [articleId,setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
+const AddArticle = (props) => {
     const [articleTitle,setArticleTitle] = useState('')   //文章标题
     const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
     const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
@@ -102,6 +102,9 @@ const AddArticle = () => {
         BlogRequest.addBlogRequest(data).then(res=>{
             if(res.data.code === 0){
                 message.success('发布成功')
+                setTimeout(()=>{
+                    props.history.push('/index/list')
+                },500)
             }else{
                 message.success('发布失败')
             }
@@ -183,4 +186,4 @@ const AddArticle = () => {
     );
 }
 
-export default AddArticle;
+export default withRouter(AddArticle);
