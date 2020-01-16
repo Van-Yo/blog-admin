@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import BlogRequest from '../requests/modules/blog'
+import {withRouter} from 'react-router-dom';
 import '../static/css/ArticleList.css'
 import { List ,Row ,Col , Modal ,message ,Button,Switch} from 'antd';
 import axios from 'axios'
@@ -17,6 +18,27 @@ function ArticleList(props){
             setList(res.data);
         })
     }
+    const deleteBlog = (_id) => {
+        confirm({
+            title:'确定要删除这篇博客文章吗?',
+            content:'如果你点击OK按钮，文章将会永远被删除，无法恢复。',
+            onOk(){
+                BlogRequest.deleteBlogRequest({_id}).then(res=>{
+                    console.log(res)
+                    message.success('文章删除成功')
+                    getList()
+                })
+            },
+            onCancel(){
+                return
+            }
+        })
+    }
+
+    const goToBlogDetail = (_id) => {
+        props.history.push('/index/add/'+_id)
+    }
+
     return (
         <div>
              <List
@@ -61,9 +83,9 @@ function ArticleList(props){
                             </Col>
 
                             <Col span={4}>
-                              <Button type="primary" >修改</Button>&nbsp;
+                              <Button type="primary" onClick={goToBlogDetail.bind(this,item._id)} >修改</Button>&nbsp;
 
-                              <Button >删除 </Button>
+                              <Button onClick={deleteBlog.bind(this,item._id)}>删除 </Button>
                             </Col>
                         </Row>
 
@@ -76,4 +98,4 @@ function ArticleList(props){
 
 }
 
-export default ArticleList
+export default withRouter(ArticleList)

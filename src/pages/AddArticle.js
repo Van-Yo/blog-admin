@@ -13,6 +13,7 @@ const { TextArea } = Input
 
 
 const AddArticle = (props) => {
+    const [articleId,setArticleId] = useState(0)
     const [articleTitle,setArticleTitle] = useState('')   //文章标题
     const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
     const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
@@ -47,7 +48,12 @@ const AddArticle = (props) => {
     */
     useEffect(()=>{
         getBlogCategory()
-    },[])
+        const tmpId = props.match.params._id
+        setArticleId(tmpId)
+        if(tmpId){
+            getBlogDetail(tmpId)
+        }
+    },[props.match.params._id])
 
     /**
      * 四个方法，用于input,textarea,select的值变化时保存到useState中
@@ -66,7 +72,7 @@ const AddArticle = (props) => {
         setArticleTitle(e.target.value)
     }
     const changeCategory = (value) => {
-        setSelectType(parseInt(value))
+        setSelectType(value)
     }
 
     /**
@@ -83,6 +89,7 @@ const AddArticle = (props) => {
     */
     const addBlog = () =>{
         let data = {
+            _id:articleId,
             title:articleTitle,
             category:selectedType,
             hot:1,
@@ -99,17 +106,50 @@ const AddArticle = (props) => {
             message.error('内容不能为空')
             return
         }
-        BlogRequest.addBlogRequest(data).then(res=>{
-            if(res.data.code === 0){
-                message.success('发布成功')
-                setTimeout(()=>{
-                    props.history.push('/index/list')
-                },500)
-            }else{
-                message.success('发布失败')
-            }
+        console.log(articleId)
+        if(articleId===undefined || articleId===0 ){
+            BlogRequest.addBlogRequest(data).then(res=>{
+                if(res.data.code === 0){
+                    message.success('发布成功')
+                    setTimeout(()=>{
+                        props.history.push('/index/list')
+                    },500)
+                }else{
+                    message.success('发布失败')
+                }
+            })
+        }else{
+            BlogRequest.updateBlogDetailRequest(data).then(res=>{
+                if(res.data.code === 0){
+                    message.success('更新成功')
+                    setTimeout(()=>{
+                        props.history.push('/index/list')
+                    },500)
+                }else{
+                    message.success('更新失败')
+                }
+            })
+        }
+    }
+
+    /**
+     * 获取博客详情
+    */
+    const getBlogDetail = (_id)=> {
+        BlogRequest.getBlogDeatilRequest({_id}).then(res => {
+            const {title,category,content,brief} = res.data[0];
+            setArticleTitle(title)
+            setArticleContent(content)
+            setSelectType(category)
+            setIntroducemd(brief)
+            let mkdContent=marked(content)
+            setMarkdownContent(mkdContent)
+            let mkdBrief = marked(brief)
+            setIntroducehtml(mkdBrief)
         })
     }
+
+   
 
     return (
         <div>
@@ -121,6 +161,7 @@ const AddArticle = (props) => {
                                 placeholder="博客标题" 
                                 size="large"
                                 onChange={changeTitle}
+                                value = {articleTitle}
                             />
                         </Col>
                         <Col span={4}>
@@ -129,7 +170,7 @@ const AddArticle = (props) => {
                                 {
                                     typeInfo.map((item,index)=>{
                                         return (
-                                            <Option key={index} value={item.id}>{item.name}</Option>
+                                            <Option key={index} value={item.name}>{item.name}</Option>
                                         )
                                     })
                                 }
@@ -144,6 +185,7 @@ const AddArticle = (props) => {
                                 rows={17}  
                                 placeholder="文章内容"
                                 onChange = {changeContent}
+                                value = {articleContent}
                                 />
                         </Col>
                         <Col span={12}>
@@ -168,12 +210,13 @@ const AddArticle = (props) => {
                                 rows={4} 
                                 placeholder="文章简介"
                                 onChange = {changeIntroduce}
+                                value = {introducemd}
                             />
                             <br/><br/>
                             <div  className="introduce-html" dangerouslySetInnerHTML={{__html:introducehtml}}></div>
                         </Col>
                         <Col span={10}>
-                            <Button type="dashed" size="large" className="submit-btn">暂存文章</Button>
+                            <Button type="dashed" size="large" className="submit-btn" >暂存文章</Button>
                         </Col>
                         <Col span={12}>
                             <Button type="primary" size="large" className="submit-btn" onClick={addBlog}>发布文章</Button>

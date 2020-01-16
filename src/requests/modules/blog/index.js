@@ -17,5 +17,17 @@ class BlogRequest{
     getBlogListRequest(){
         return http.get(this.apiList.blogGetBlogListApi)
     }
+    // 删除博客
+    deleteBlogRequest(data){
+        return http.get(this.apiList.blogDeleteBlogApi,data)
+    }
+    // 获取博客详情
+    getBlogDeatilRequest(data){
+        return http.get(this.apiList.blogGetBlogDeatilApi,data)
+    }
+    // 更新博客详情
+    updateBlogDetailRequest(data){
+        return http.post(this.apiList.blogUpdateBlogDeatilApi,data)
+    }
 }
 export default new BlogRequest()

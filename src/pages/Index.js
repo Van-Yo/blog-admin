@@ -65,7 +65,10 @@ function Index(props) {
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <div>
-                <Route path='/index/add/'>
+                <Route path='/index/add/' exact>
+                  <AddArticle/>
+                </Route>
+                <Route path='/index/add/:_id'>
                   <AddArticle/>
                 </Route>
                 <Route path='/index/list/'>
