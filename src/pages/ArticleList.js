@@ -2,8 +2,8 @@ import React,{useState,useEffect} from 'react';
 import BlogRequest from '../requests/modules/blog'
 import {withRouter} from 'react-router-dom';
 import '../static/css/ArticleList.css'
-import { List ,Row ,Col , Modal ,message ,Button,Switch} from 'antd';
-import axios from 'axios'
+import { List ,Row ,Col , Modal ,message ,Button,Input } from 'antd';
+const { Search } = Input;
 const { confirm } = Modal;
 
 
@@ -11,12 +11,19 @@ function ArticleList(props){
 
     const [list,setList]=useState([])
     useEffect(()=>{
-        getList()
-    },[])
-    const getList = () => {
-        BlogRequest.getBlogListRequest().then(res => {
-            setList(res.data);
-        })
+        let tempStatus = props.match.params.status
+        getList(tempStatus)
+    },[props.match.params.status])
+    const getList = (tempStatus) => {
+        if(tempStatus==='released'){
+            BlogRequest.getReleasedBlogListRequest().then(res => {
+                setList(res.data);
+            })
+        }else if(tempStatus==='prepared'){
+            BlogRequest.getPreparedBlogListRequest().then(res => {
+                setList(res.data);
+            })
+        }
     }
     const deleteBlog = (_id) => {
         confirm({
@@ -39,9 +46,32 @@ function ArticleList(props){
         props.history.push('/index/add/'+_id)
     }
 
+    const findBlog = (value) => {
+        let status = ''
+        if(props.match.params.status === 'released'){
+            status = 1
+        }else{
+            status = 2
+        }
+        BlogRequest.getBlogListBySearchRequest({searchString:value,status:status}).then(res=>{
+            setList(res.data);
+        })
+    }
+
     return (
         <div>
-             <List
+            <Row type="flex" justify="end">
+                <Col span={6}>
+                    <Search 
+                        placeholder="input search text" 
+                        onSearch={value => findBlog(value)} 
+                        enterButton 
+                    />
+                    <br />
+                    <br />
+                </Col>
+            </Row> 
+            <List
                 header={
                     <Row className="list-div">
                         <Col span={8}>

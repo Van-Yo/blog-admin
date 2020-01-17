@@ -13,11 +13,12 @@ function Index(props) {
         setCollapsed(collapsed)
     }
     const handleClickArticle = e=>{
-      console.log(e.item.props)
       if(e.key==='addArticle'){
         props.history.push('/index/add')
-      }else{
-        props.history.push('/index/list')
+      }else if(e.key==='articleList'){
+        props.history.push('/index/list/released')
+      }else if(e.key==='preparedArticle'){
+        props.history.push('/index/list/prepared')
       }
   
     }
@@ -33,25 +34,22 @@ function Index(props) {
                 <Icon type="pie-chart" />
                 <span>工作台</span>
                 </Menu.Item>
-                <Menu.Item key="2">
-                <Icon type="desktop" />
-                <span>添加文章</span>
-                </Menu.Item>
                 <SubMenu
                 key="sub1"
                 onClick={handleClickArticle}
                 title={
                     <span>
-                    <Icon type="user" />
+                    <Icon type="file" />
                     <span>文章管理</span>
                     </span>
                 }
                 >
-                <Menu.Item key="addArticle">添加文章</Menu.Item>
-                <Menu.Item key="articleList">文章列表</Menu.Item>
+                  <Menu.Item key="addArticle">添加文章</Menu.Item>
+                  <Menu.Item key="articleList">文章列表</Menu.Item>
+                  <Menu.Item key="preparedArticle">草稿箱</Menu.Item>
                 </SubMenu>
                 <Menu.Item key="9">
-                <Icon type="file" />
+                <Icon type="message" />
                 <span>留言管理</span>
                 </Menu.Item>
             </Menu>
@@ -61,7 +59,7 @@ function Index(props) {
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>后台管理</Breadcrumb.Item>
-              <Breadcrumb.Item>工作台</Breadcrumb.Item>
+              <Breadcrumb.Item>添加文章</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <div>
@@ -71,7 +69,7 @@ function Index(props) {
                 <Route path='/index/add/:_id'>
                   <AddArticle/>
                 </Route>
-                <Route path='/index/list/'>
+                <Route path='/index/list/:status'>
                   <ArticleList/>
                 </Route>
               </div>

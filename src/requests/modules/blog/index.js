@@ -17,6 +17,18 @@ class BlogRequest{
     getBlogListRequest(){
         return http.get(this.apiList.blogGetBlogListApi)
     }
+    // 获取已发表博客列表
+    getReleasedBlogListRequest(){
+        return http.get(this.apiList.blogGetReleasedBlogListApi)
+    }
+    // 获取草稿博客列表
+    getPreparedBlogListRequest(){
+        return http.get(this.apiList.blogGetPreparedBlogListApi)
+    }
+    // 模糊查询博客
+    getBlogListBySearchRequest(data){
+        return http.get(this.apiList.blogFindBlogBySearchApi,data)
+    }
     // 删除博客
     deleteBlogRequest(data){
         return http.get(this.apiList.blogDeleteBlogApi,data)
@@ -28,6 +40,10 @@ class BlogRequest{
     // 更新博客详情
     updateBlogDetailRequest(data){
         return http.post(this.apiList.blogUpdateBlogDeatilApi,data)
+    }
+    // 查找博客
+    findBlogRequest(data){
+        return http.get(this.apiList.blogFindBlogApi,data)
     }
 }
 export default new BlogRequest()

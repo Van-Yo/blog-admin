@@ -87,14 +87,15 @@ const AddArticle = (props) => {
     /**
      * 发布文章
     */
-    const addBlog = () =>{
+    const addBlog = (status) =>{
         let data = {
             _id:articleId,
             title:articleTitle,
             category:selectedType,
             hot:1,
             content:articleContent,
-            brief:introducemd
+            brief:introducemd,
+            status
         }
         if(selectedType==='请选择分类'){
             message.error('请选择分类')
@@ -106,27 +107,48 @@ const AddArticle = (props) => {
             message.error('内容不能为空')
             return
         }
-        console.log(articleId)
         if(articleId===undefined || articleId===0 ){
             BlogRequest.addBlogRequest(data).then(res=>{
                 if(res.data.code === 0){
-                    message.success('发布成功')
-                    setTimeout(()=>{
-                        props.history.push('/index/list')
-                    },500)
+                    if(status===1){
+                        message.success('发布成功')
+                        setTimeout(()=>{
+                            props.history.push('/index/list')
+                        },500)
+                    }else{
+                        message.success('暂存成功')
+                        setTimeout(()=>{
+                            props.history.push('/index/preparedList')
+                        },500)
+                    }
                 }else{
-                    message.success('发布失败')
+                    if(status===1){
+                        message.error('发布失败')
+                    }else{
+                        message.error('暂存失败')
+                    }
                 }
             })
         }else{
             BlogRequest.updateBlogDetailRequest(data).then(res=>{
                 if(res.data.code === 0){
-                    message.success('更新成功')
-                    setTimeout(()=>{
-                        props.history.push('/index/list')
-                    },500)
+                    if(status===1){
+                        message.success('更新成功')
+                        setTimeout(()=>{
+                            props.history.push('/index/list')
+                        },500)
+                    }else{
+                        message.success('暂存成功')
+                        setTimeout(()=>{
+                            props.history.push('/index/preparedList')
+                        },500)
+                    }
                 }else{
-                    message.success('更新失败')
+                    if(status===1){
+                        message.error('更新失败')
+                    }else{
+                        message.error('暂存失败')
+                    }
                 }
             })
         }
@@ -216,10 +238,10 @@ const AddArticle = (props) => {
                             <div  className="introduce-html" dangerouslySetInnerHTML={{__html:introducehtml}}></div>
                         </Col>
                         <Col span={10}>
-                            <Button type="dashed" size="large" className="submit-btn" >暂存文章</Button>
+                            <Button type="dashed" size="large" className="submit-btn" onClick={addBlog.bind(this,2)}>暂存文章</Button>
                         </Col>
                         <Col span={12}>
-                            <Button type="primary" size="large" className="submit-btn" onClick={addBlog}>发布文章</Button>
+                            <Button type="primary" size="large" className="submit-btn" onClick={addBlog.bind(this,1)}>发布文章</Button>
                         </Col>
                         
                     </Row>
