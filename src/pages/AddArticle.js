@@ -13,7 +13,7 @@ const { TextArea } = Input
 
 
 const AddArticle = (props) => {
-    const [articleId,setArticleId] = useState(0)
+    const [articleId,setArticleId] = useState(0) //用于判断是否是新增博客，1表示新增博客，2表示不是新增博客
     const [articleTitle,setArticleTitle] = useState('')   //文章标题
     const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
     const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
@@ -23,7 +23,7 @@ const AddArticle = (props) => {
     // const [updateDate,setUpdateDate] = useState() //修改日志的日期
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType,setSelectType] = useState('请选择分类') //选择的文章类别
-
+    const [blogStatus,setblogStatus] = useState(1) //博客状态，1表示已发布，2表示暂存
     /**
      * marked && highlight
     */
@@ -107,18 +107,19 @@ const AddArticle = (props) => {
             message.error('内容不能为空')
             return
         }
+        // 新增的博客，没有暂存和发布过
         if(articleId===undefined || articleId===0 ){
             BlogRequest.addBlogRequest(data).then(res=>{
                 if(res.data.code === 0){
                     if(status===1){
                         message.success('发布成功')
                         setTimeout(()=>{
-                            props.history.push('/index/list')
+                            props.history.push('/index/list/released')
                         },500)
                     }else{
                         message.success('暂存成功')
                         setTimeout(()=>{
-                            props.history.push('/index/preparedList')
+                            props.history.push('/index/list/prepared')
                         },500)
                     }
                 }else{
@@ -133,19 +134,31 @@ const AddArticle = (props) => {
             BlogRequest.updateBlogDetailRequest(data).then(res=>{
                 if(res.data.code === 0){
                     if(status===1){
-                        message.success('更新成功')
-                        setTimeout(()=>{
-                            props.history.push('/index/list')
-                        },500)
+                        if(blogStatus===1){
+                            message.success('更新成功')
+                            setTimeout(()=>{
+                                props.history.push('/index/list/released')
+                            },500)
+                        }else if(blogStatus===2){
+                            message.success('发布成功')
+                            setTimeout(()=>{
+                                props.history.push('/index/list/released')
+                            },500)
+                        }
+                        
                     }else{
                         message.success('暂存成功')
                         setTimeout(()=>{
-                            props.history.push('/index/preparedList')
+                            props.history.push('/index/list/prepared')
                         },500)
                     }
-                }else{
+                }else{ 
                     if(status===1){
-                        message.error('更新失败')
+                        if(blogStatus===1){
+                            message.error('更新失败')
+                        }else if(blogStatus===2){
+                            message.error('发布失败')
+                        }
                     }else{
                         message.error('暂存失败')
                     }
@@ -159,7 +172,7 @@ const AddArticle = (props) => {
     */
     const getBlogDetail = (_id)=> {
         BlogRequest.getBlogDeatilRequest({_id}).then(res => {
-            const {title,category,content,brief} = res.data[0];
+            const {title,category,content,brief,status} = res.data[0];
             setArticleTitle(title)
             setArticleContent(content)
             setSelectType(category)
@@ -168,6 +181,7 @@ const AddArticle = (props) => {
             setMarkdownContent(mkdContent)
             let mkdBrief = marked(brief)
             setIntroducehtml(mkdBrief)
+            setblogStatus(status)
         })
     }
 
@@ -188,7 +202,7 @@ const AddArticle = (props) => {
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select style={{ width:'95%' }} defaultValue={selectedType} size="large" onChange={changeCategory}>
+                            <Select style={{ width:'95%' }} value={selectedType} size="large" onChange={changeCategory}>
                                 {
                                     typeInfo.map((item,index)=>{
                                         return (

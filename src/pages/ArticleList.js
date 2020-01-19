@@ -32,8 +32,10 @@ function ArticleList(props){
             onOk(){
                 BlogRequest.deleteBlogRequest({_id}).then(res=>{
                     console.log(res)
-                    message.success('文章删除成功')
-                    getList()
+                    if(res.data.code===0){
+                        message.success('文章删除成功')
+                    }
+                    getList(props.match.params.status)
                 })
             },
             onCancel(){
@@ -55,6 +57,37 @@ function ArticleList(props){
         }
         BlogRequest.getBlogListBySearchRequest({searchString:value,status:status}).then(res=>{
             setList(res.data);
+        })
+    }
+
+    const addBlog = (item) => {
+        let data = {
+            _id:item._id,
+            title:item.title,
+            category:item.category,
+            hot:1,
+            content:item.content,
+            brief:item.brief,
+            status:1
+        }
+        
+        confirm({
+            title:'确定要发布这篇博客文章吗?',
+            content:'如果你点击OK按钮，文章将会被发布。',
+            onOk(){
+                BlogRequest.updateBlogDetailRequest(data).then(res => {
+                    if(res.data.code === 0){
+                        message.success('发布成功')
+                        props.history.push('/index/list/released')
+                    }else{
+                        message.error('发布失败')
+                        return false
+                    }
+                })
+            },
+            onCancel(){
+                return
+            }
         })
     }
 
@@ -81,14 +114,14 @@ function ArticleList(props){
                             <b>类别</b>
                         </Col>
                         <Col span={4}>
-                            <b>发布时间</b>
+                            <b>最新修改或发布时间</b>
                         </Col>
 
-                        <Col span={4}>
+                        <Col span={3}>
                             <b>浏览量</b>
                         </Col>
 
-                        <Col span={4}>
+                        <Col span={5}>
                             <b>操作</b>
                         </Col>
                     </Row>
@@ -108,14 +141,19 @@ function ArticleList(props){
                             <Col span={4}>
                                 {item.date}
                             </Col>
-                            <Col span={4}>
+                            <Col span={3}>
                               {item.hot}
                             </Col>
 
-                            <Col span={4}>
-                              <Button type="primary" onClick={goToBlogDetail.bind(this,item._id)} >修改</Button>&nbsp;
+                            <Col span={5}>
+                                {
+                                    props.match.params.status === 'prepared' && 
+                                    <Button type="primary" onClick={addBlog.bind(this,item)}>发布</Button>
+                                }
+                                
+                                &nbsp;<Button onClick={goToBlogDetail.bind(this,item._id)} >修改</Button>&nbsp;
 
-                              <Button onClick={deleteBlog.bind(this,item._id)}>删除 </Button>
+                                <Button type="danger" onClick={deleteBlog.bind(this,item._id)}>删除 </Button>
                             </Col>
                         </Row>
 
