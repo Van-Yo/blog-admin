@@ -3,7 +3,7 @@
  */
 class Api {
     constructor(){
-        this.baseUrl = 'http://localhost:3100'
+        this.baseUrl = 'http://139.224.227.52/api'
     }
     getApiList(){
         let apiList = {
