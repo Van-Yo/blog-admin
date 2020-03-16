@@ -63,8 +63,9 @@ function Index(props) {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 ,height:0}} />
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>文章管理</Breadcrumb.Item>
+              <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item>{props.history.location.pathname === '/index' && '工作台'}</Breadcrumb.Item>
+              <Breadcrumb.Item>{props.history.location.pathname.indexOf('/index/') !== -1 && '文章管理'}</Breadcrumb.Item>
               <Breadcrumb.Item>{props.history.location.pathname === '/index/add' && '添加文章'}</Breadcrumb.Item>
               <Breadcrumb.Item>{props.history.location.pathname === '/index/list/released' && '文章列表'}</Breadcrumb.Item>
               <Breadcrumb.Item>{props.history.location.pathname === '/index/list/prepared' && '草稿箱'}</Breadcrumb.Item>
