@@ -12,7 +12,7 @@ function Login(props) {
     const [isLoading, setIsLoading] = useState(false)
     const checkLogin = ()=>{
         setIsLoading(true)
-        if(!userName){
+        if(!userName.trim()){
             message.error('用户名不能为空')
             setTimeout(()=>{
                 setIsLoading(false)
