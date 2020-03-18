@@ -1,5 +1,6 @@
 import axios from 'axios';
 import storage from './storage.js';
+import { message } from 'antd';
 /**
  * 基于axios的http请求配置
  */
@@ -48,7 +49,11 @@ class http{
         }
         return new Promise((resolve,reject) => {
             axios(config).then(result => {
-                resolve(result);
+                if(result.data.code === -99){
+                    message.error('请重新登录')
+                }else{
+                    resolve(result);
+                }
             }).catch(err => {
                 let errorObj;
                 if(err.response){
