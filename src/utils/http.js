@@ -1,6 +1,7 @@
 import axios from 'axios';
 import storage from './storage.js';
 import { message } from 'antd';
+import Storage from './storage';
 axios.defaults.withCredentials = true
 /**
  * 基于axios的http请求配置
@@ -51,6 +52,7 @@ class http{
         return new Promise((resolve,reject) => {
             axios(config).then(result => {
                 if(result.data.code === -99){
+                    Storage.setLoginStatus(false);
                     message.error('请重新登录')
                 }else{
                     resolve(result);

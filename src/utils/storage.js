@@ -4,7 +4,8 @@
 class Storage {
     constructor() {
         this.header = 'header';
-        this.userInfo = 'userInfo'
+        this.userInfo = 'userInfo';
+        this.loginStatus = 'loginStatus';
     }
     /**
      * set session storage model
@@ -29,6 +30,18 @@ class Storage {
     */
     getUserInfoSs(){
         return JSON.parse(sessionStorage.getItem(this.userInfo) || '{}');
+    }
+    /**
+     * 存用户登录状态
+    */
+    setLoginStatus(value) {
+        sessionStorage.setItem(this.loginStatus, JSON.stringify(value));
+    }
+    /**
+     * 取用户登录状态
+    */
+    getLoginStatus(){
+        return JSON.parse(sessionStorage.getItem(this.loginStatus) || '');
     }
 }
 export default new Storage();
