@@ -1,6 +1,7 @@
 import axios from 'axios';
 import storage from './storage.js';
 import { message } from 'antd';
+axios.defaults.withCredentials = true
 /**
  * 基于axios的http请求配置
  */
