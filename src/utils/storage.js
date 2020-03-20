@@ -41,7 +41,7 @@ class Storage {
      * 取用户登录状态
     */
     getLoginStatus(){
-        return JSON.parse(sessionStorage.getItem(this.loginStatus) || '');
+        return JSON.parse(sessionStorage.getItem(this.loginStatus) || false);
     }
 }
 export default new Storage();
