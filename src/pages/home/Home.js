@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import '../static/css/Home.css';
+import '../../static/css/Home.css';
 import { Statistic, Row, Col ,Icon } from 'antd';
 
 const Home = () => {

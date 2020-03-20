@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from 'react';
-import '../static/css/AddArticle.css'
+import '../../static/css/AddArticle.css'
 import {Row,Col,Input,Select,Button,message} from 'antd'
 import {withRouter} from 'react-router-dom';
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
-import BlogRequest from '../requests/modules/blog'
+import BlogRequest from '../../requests/modules/blog'
 
 const { Option } = Select
 const { TextArea } = Input

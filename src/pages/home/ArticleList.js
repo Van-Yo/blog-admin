@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
-import BlogRequest from '../requests/modules/blog'
+import BlogRequest from '../../requests/modules/blog'
 import {withRouter} from 'react-router-dom';
-import '../static/css/ArticleList.css'
+import '../../static/css/ArticleList.css'
 import { List ,Row ,Col , Modal ,message ,Button,Input } from 'antd';
 const { Search } = Input;
 const { confirm } = Modal;

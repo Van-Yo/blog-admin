@@ -1,13 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import { Row, Col , Layout, Menu, Breadcrumb, Icon ,Avatar} from 'antd';
-import '../static/css/AdminIndex.css';
+import '../../static/css/AdminIndex.css';
 import {Route,withRouter} from 'react-router-dom';
 import AddArticle from './AddArticle'
 import ArticleList from './ArticleList'
 import Reviews from './Reviews'
 import Home from './Home'
-import Storage from '../utils/storage'
-import UserRequest from '../requests/modules/user'
+import Storage from '../../utils/storage'
+import UserRequest from '../../requests/modules/user'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,9 +16,10 @@ function Index(props) {
     const [collapsed,setCollapsed] = useState(false)
     const [isLoginState,setIsLoginState] = useState()
     useEffect(()=>{
+      console.log(props)
       let loginState = Storage.getLoginStatus()
       setIsLoginState(loginState)
-    },[Storage.getLoginStatus()])
+    },[props, props.routes])
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     }
