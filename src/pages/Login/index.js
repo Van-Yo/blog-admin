@@ -1,10 +1,10 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import 'antd/dist/antd.css';
 import { Card, Input, Icon,Button ,Spin ,message } from 'antd';
-import '../static/css/Login.css';
+import '../../static/css/Login.css';
 import {withRouter} from "react-router-dom";
-import UserRequest from '../requests/modules/user'
-import Storage from '../utils/storage'
+import UserRequest from '../../requests/modules/user'
+import Storage from '../../utils/storage'
 
 function Login(props) {
     const [userName , setUserName] = useState('')
@@ -41,7 +41,7 @@ function Login(props) {
                 Storage.setUserInfoSs(res.data.data[0]);
                 Storage.setLoginStatus(true);
                 setIsLoading(false)
-                props.history.push('/index')
+                props.history.push('/home')
             }else{
                 message.error('用户名或者密码错误')
                 setTimeout(()=>{

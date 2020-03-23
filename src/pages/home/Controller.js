@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,memo} from 'react'
 import '../../static/css/Home.css';
 import { Statistic, Row, Col ,Icon } from 'antd';
 
@@ -29,4 +29,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default memo(Home);

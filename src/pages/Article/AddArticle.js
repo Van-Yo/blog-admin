@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,memo} from 'react';
 import '../../static/css/AddArticle.css'
 import {Row,Col,Input,Select,Button,message} from 'antd'
 import {withRouter} from 'react-router-dom';
@@ -48,12 +48,12 @@ const AddArticle = (props) => {
     */
     useEffect(()=>{
         getBlogCategory()
-        const tmpId = props.match.params._id
+        const tmpId = props.match.params.id
         setArticleId(tmpId)
         if(tmpId){
             getBlogDetail(tmpId)
         }
-    },[props.match.params._id])
+    },[props, props.match.params.id])
 
     /**
      * 四个方法，用于input,textarea,select的值变化时保存到useState中
@@ -114,12 +114,12 @@ const AddArticle = (props) => {
                     if(status===1){
                         message.success('发布成功')
                         setTimeout(()=>{
-                            props.history.push('/index/list/released')
+                            props.history.push('/home/article/list/released')
                         },500)
                     }else{
                         message.success('暂存成功')
                         setTimeout(()=>{
-                            props.history.push('/index/list/prepared')
+                            props.history.push('/home/article/list/prepared')
                         },500)
                     }
                 }else{
@@ -137,19 +137,19 @@ const AddArticle = (props) => {
                         if(blogStatus===1){
                             message.success('更新成功')
                             setTimeout(()=>{
-                                props.history.push('/index/list/released')
+                                props.history.push('/home/article/list/released')
                             },500)
                         }else if(blogStatus===2){
                             message.success('发布成功')
                             setTimeout(()=>{
-                                props.history.push('/index/list/released')
+                                props.history.push('/home/article/list/released')
                             },500)
                         }
                         
                     }else{
                         message.success('暂存成功')
                         setTimeout(()=>{
-                            props.history.push('/index/list/prepared')
+                            props.history.push('/home/article/list/prepared')
                         },500)
                     }
                 }else{ 
@@ -265,4 +265,4 @@ const AddArticle = (props) => {
     );
 }
 
-export default withRouter(AddArticle);
+export default memo(withRouter(AddArticle));

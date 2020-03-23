@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{memo} from 'react';
 
 const Reviews = () => {
     return (
@@ -8,4 +8,4 @@ const Reviews = () => {
     );
 }
 
-export default Reviews;
+export default memo(Reviews);

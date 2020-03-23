@@ -1,13 +1,10 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,memo} from 'react'
 import { Row, Col , Layout, Menu, Breadcrumb, Icon ,Avatar} from 'antd';
 import '../../static/css/AdminIndex.css';
-import {Route,withRouter} from 'react-router-dom';
-import AddArticle from './AddArticle'
-import ArticleList from './ArticleList'
-import Reviews from './Reviews'
-import Home from './Home'
+import {withRouter} from 'react-router-dom';
 import Storage from '../../utils/storage'
 import UserRequest from '../../requests/modules/user'
+import { renderRoutes } from 'react-router-config'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,7 +13,9 @@ function Index(props) {
     const [collapsed,setCollapsed] = useState(false)
     const [isLoginState,setIsLoginState] = useState()
     useEffect(()=>{
-      console.log(props)
+        if(props.location.pathname === '/home'){
+          props.history.push('/home/controller')
+      }
       let loginState = Storage.getLoginStatus()
       setIsLoginState(loginState)
     },[props, props.routes])
@@ -24,16 +23,16 @@ function Index(props) {
         setCollapsed(collapsed)
     }
     const handleClickArticle = e=>{
-      if(e.key==='/index/add'){
-        props.history.push('/index/add')
-      }else if(e.key==='/index/list/released'){
-        props.history.push('/index/list/released')
-      }else if(e.key==='/index/list/prepared'){
-        props.history.push('/index/list/prepared')
-      }else if(e.key==='/index'){
-        props.history.push('/index')
-      }else if(e.key==='/index/reviews'){
-        props.history.push('/index/reviews')
+      if(e.key==='/home/article/add'){
+        props.history.push('/home/article/add')
+      }else if(e.key==='/home/article/list/released'){
+        props.history.push('/home/article/list/released')
+      }else if(e.key==='/home/article/list/prepared'){
+        props.history.push('/home/article/list/prepared')
+      }else if(e.key==='/home/controller'){
+        props.history.push('/home/controller')
+      }else if(e.key==='/home/reviews'){
+        props.history.push('/home/reviews')
       }
   
     }
@@ -59,7 +58,7 @@ function Index(props) {
               <Avatar size={100} src="http://139.224.227.52/image/joker-logo.png"  />
             </div>
             <Menu onClick={handleClickArticle} theme="dark" defaultSelectedKeys={['1']} mode="inline" selectedKeys={[props.history.location.pathname]}>
-                <Menu.Item key="/index">
+                <Menu.Item key="/home/controller">
                   <Icon type="pie-chart" />
                   <span>工作台</span>
                 </Menu.Item>
@@ -72,11 +71,11 @@ function Index(props) {
                       </span>
                   }
                 >
-                  <Menu.Item key="/index/add">添加文章</Menu.Item>
-                  <Menu.Item key="/index/list/released">文章列表</Menu.Item>
-                  <Menu.Item key="/index/list/prepared">草稿箱</Menu.Item>
+                  <Menu.Item key="/home/article/add">添加文章</Menu.Item>
+                  <Menu.Item key="/home/article/list/released">文章列表</Menu.Item>
+                  <Menu.Item key="/home/article/list/prepared">草稿箱</Menu.Item>
                 </SubMenu>
-                <Menu.Item key="/index/reviews">
+                <Menu.Item key="/home/reviews">
                   <Icon type="message" />
                   <span>留言管理</span>
                 </Menu.Item>
@@ -89,11 +88,12 @@ function Index(props) {
             <Row type="flex" justify="space-between" align="bottom">
               <Col span={4}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/index' && '工作台'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname.indexOf('/index/') !== -1 && '文章管理'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/index/add' && '添加文章'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/index/list/released' && '文章列表'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/index/list/prepared' && '草稿箱'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/controller' && '工作台'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname.indexOf('/home/article') !== -1 && '文章管理'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/add' && '添加文章'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/list/released' && '文章列表'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/list/prepared' && '草稿箱'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/reviews' && '留言管理'}</Breadcrumb.Item>
                 </Breadcrumb>
               </Col>
               <Col span={8}>
@@ -110,21 +110,8 @@ function Index(props) {
             </Row>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <div>
-                <Route path='/index' exact>
-                  <Home/>
-                </Route>
-                <Route path='/index/add/' exact>
-                  <AddArticle/>
-                </Route>
-                <Route path='/index/add/:_id'>
-                  <AddArticle/>
-                </Route>
-                <Route path='/index/list/:status'>
-                  <ArticleList/>
-                </Route>
-                <Route path='/index/reviews' exact>
-                  <Reviews/>
-                </Route>
+                {/* 第二层路由判断，'/home/controller' or '/home/article' or /home/reviews */}
+                {renderRoutes(props.route.route)}
               </div>
             </div>
           </Content>
@@ -133,4 +120,4 @@ function Index(props) {
       </Layout>
     )
 }
-export default withRouter(Index)
+export default memo(withRouter(Index))
