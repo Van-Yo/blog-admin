@@ -1,18 +1,26 @@
 import React,{useState} from 'react'
 import 'antd/dist/antd.css';
 import { Card, Input, Icon,Button ,Spin ,message } from 'antd';
-import '../static/css/Login.css';
+import '../../static/css/Login.css';
 import {withRouter} from "react-router-dom";
-import UserRequest from '../requests/modules/user'
-import Storage from '../utils/storage'
+import UserRequest from '../../requests/modules/user'
+import Storage from '../../utils/storage'
 
 function Login(props) {
     const [userName , setUserName] = useState('')
     const [password , setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    // 获取本地登录状态，如果已登录，则跳转到首页
+    // useEffect(()=>{
+    //     let loginState = Storage.getLoginStatus()
+    //     if(loginState){
+    //         props.history.push('/index');
+    //     }
+    // },[props.history])
+
     const checkLogin = ()=>{
         setIsLoading(true)
-        if(!userName){
+        if(!userName.trim()){
             message.error('用户名不能为空')
             setTimeout(()=>{
                 setIsLoading(false)
@@ -30,9 +38,10 @@ function Login(props) {
             ps: password
         }).then(res=>{
             if(res.data.code === 0){
-                Storage.setUserInfoSs(res.data.data[0])
+                Storage.setUserInfoSs(res.data.data[0]);
+                Storage.setLoginStatus(true);
                 setIsLoading(false)
-                props.history.push('/index')
+                props.history.push('/home')
             }else{
                 message.error('用户名或者密码错误')
                 setTimeout(()=>{

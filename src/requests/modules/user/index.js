@@ -9,5 +9,9 @@ class UserRequest{
     userLoginRequest(data){
         return http.post(this.apiList.userLoginApi,data)
     }
+    // 用户登出
+    userLogoutRequest(){
+        return http.get(this.apiList.userLogoutApi)
+    }
 }
 export default new UserRequest()

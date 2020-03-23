@@ -4,3 +4,10 @@
     margin: 16px;
     text-align: center;
 }
+.login-and-out{
+    cursor: pointer;
+    display: inline-block;
+}
+.login-and-out:hover{
+    color: #ff4d4f;
+}

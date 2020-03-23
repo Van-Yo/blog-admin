@@ -1,25 +1,25 @@
 import React,{useState,useEffect} from 'react';
-import BlogRequest from '../requests/modules/blog'
+import BlogRequest from '../../requests/modules/blog'
 import {withRouter} from 'react-router-dom';
-import '../static/css/ArticleList.css'
+import '../../static/css/ArticleList.css'
 import { List ,Row ,Col , Modal ,message ,Button,Input } from 'antd';
 const { Search } = Input;
 const { confirm } = Modal;
 
 
 function ArticleList(props){
-
+    // console.log(props)
     const [list,setList]=useState([])
     useEffect(()=>{
         let tempStatus = props.match.params.status
         getList(tempStatus)
     },[props.match.params.status])
     const getList = (tempStatus) => {
-        if(tempStatus==='released'){
+        if(tempStatus === 'released'){
             BlogRequest.getReleasedBlogListRequest().then(res => {
                 setList(res.data);
             })
-        }else if(tempStatus==='prepared'){
+        }else if(tempStatus === 'prepared'){
             BlogRequest.getPreparedBlogListRequest().then(res => {
                 setList(res.data);
             })
@@ -45,7 +45,7 @@ function ArticleList(props){
     }
 
     const goToBlogDetail = (_id) => {
-        props.history.push('/index/add/'+_id)
+        props.history.push('/home/article/edit/'+_id)
     }
 
     const findBlog = (value) => {
@@ -78,7 +78,7 @@ function ArticleList(props){
                 BlogRequest.updateBlogDetailRequest(data).then(res => {
                     if(res.data.code === 0){
                         message.success('发布成功')
-                        props.history.push('/index/list/released')
+                        props.history.push('/home/article/list/released')
                     }else{
                         message.error('发布失败')
                         return false
