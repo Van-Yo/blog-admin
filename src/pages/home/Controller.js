@@ -23,7 +23,7 @@ const Home = () => {
                 <Col span={12}>
                     <Statistic title="访问量" value={1128} prefix={<Icon type="eye" style={{color:'rgba(0,0,0,.25)'}} />} />
                 </Col>
-            </Row>,
+            </Row>
             <input className="switch switch-anim" onChange={()=>{checkNum()}} type="checkbox" />
         </div>
     );
