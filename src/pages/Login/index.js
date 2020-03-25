@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import 'antd/dist/antd.css';
 import { Card, Input, Icon,Button ,Spin ,message } from 'antd';
 import '../../static/css/Login.css';
@@ -11,12 +11,12 @@ function Login(props) {
     const [password , setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     // 获取本地登录状态，如果已登录，则跳转到首页
-    // useEffect(()=>{
-    //     let loginState = Storage.getLoginStatus()
-    //     if(loginState){
-    //         props.history.push('/index');
-    //     }
-    // },[props.history])
+    useEffect(()=>{
+        let loginState = Storage.getLoginStatus()
+        if(loginState){
+            props.history.push('/home');
+        }
+    },[props.history])
 
     const checkLogin = ()=>{
         setIsLoading(true)
