@@ -9,6 +9,7 @@ class Api {
     getApiList(){
         let apiList = {
             userLoginApi : this.baseUrl + '/user/login',    //用户登录
+            userIsLoginApi : this.baseUrl + '/user/islogin',    //用户是否登录
             userLogoutApi : this.baseUrl + '/user/logout',    //用户登出
             blogAddBlogApi : this.baseUrl + '/blogList/addBlog',     // 新增博客
             blogGetBlogCategoryApi : this.baseUrl + '/category/getCategoryList',     // 获取博客分类

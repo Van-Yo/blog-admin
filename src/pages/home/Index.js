@@ -5,19 +5,30 @@ import {withRouter} from 'react-router-dom';
 import Storage from '../../utils/storage'
 import UserRequest from '../../requests/modules/user'
 import { renderRoutes } from 'react-router-config'
+import { message } from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 function Index(props) {
-    const userInfo = Storage.getUserInfoSs();
-    const [collapsed,setCollapsed] = useState(false)
-    const [isLoginState,setIsLoginState] = useState()
+    const userInfo = Storage.getUserInfoSs();   // 本地获取个人信息
+    const [collapsed,setCollapsed] = useState(false);   // 控件闭合开关
+    const [isLoginState,setIsLoginState] = useState();    // 登录状态
     useEffect(()=>{
-        if(props.location.pathname === '/home'){
-          props.history.push('/home/controller')
-      }
-      let loginState = Storage.getLoginStatus()
-      setIsLoginState(loginState)
+        // 接口获取登录状态，如果未登录，则跳转到登录页
+        UserRequest.userIsLoginRequest().then(res=> {
+          if(res.data.code===-99){
+            message.error('请重新登录');
+            setIsLoginState(false)
+            setTimeout(() => {
+              props.history.push('/login');
+            }, 500);
+          }else{
+            setIsLoginState(true)
+            if(props.location.pathname === '/home'){
+                props.history.push('/home/controller')
+            }
+          }
+        })
     },[props, props.routes])
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
@@ -42,7 +53,6 @@ function Index(props) {
 
     const loginOut = ()=> {
       UserRequest.userLogoutRequest().then((res)=>{
-        console.log(res);
         if(res.data.code === 0){
           Storage.setLoginStatus(false)
           props.history.push('/')
