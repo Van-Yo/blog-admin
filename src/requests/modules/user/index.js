@@ -9,6 +9,10 @@ class UserRequest{
     userLoginRequest(data){
         return http.post(this.apiList.userLoginApi,data)
     }
+    // 用户登录状态
+    userIsLoginRequest(){
+        return http.get(this.apiList.userIsLoginApi)
+    }
     // 用户登出
     userLogoutRequest(){
         return http.get(this.apiList.userLogoutApi)

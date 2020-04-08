@@ -10,12 +10,13 @@ function Login(props) {
     const [userName , setUserName] = useState('')
     const [password , setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    // 获取本地登录状态，如果已登录，则跳转到首页
+    // 接口获取登录状态，如果已登录，则跳转到首页
     useEffect(()=>{
-        let loginState = Storage.getLoginStatus()
-        if(loginState){
-            props.history.push('/home');
-        }
+        UserRequest.userIsLoginRequest().then(res=> {
+            if(res.data.code===1){
+                props.history.push('/home');
+            }
+          })
     },[props.history])
 
     const checkLogin = ()=>{
@@ -54,7 +55,7 @@ function Login(props) {
         <div className="login-div">
 
             <Spin tip="Loading..." spinning={isLoading}>
-                <Card title="Vanlus Blog System" bordered={true} style={{ width: 400 }} >
+                <Card title="CrazyCoder Blog System" bordered={true} style={{ width: 400 }} >
                     <Input
                         id="userName"
                         size="large"
@@ -74,7 +75,7 @@ function Login(props) {
                     <Button type="primary" size="large" block onClick={checkLogin} > Login in </Button>
                 </Card>
             </Spin>
-        </div>
+            </div>
     )
 }
 export default withRouter(Login)

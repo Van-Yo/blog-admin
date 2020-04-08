@@ -1,10 +1,14 @@
 import React from 'react'
 import Router from './router'
+// import ReactCanvasNest from 'react-canvas-nest'
 
 export default function Main() {
     return (
         <div className="App">
-            <Router />
+            <>
+                <Router />
+                {/* <ReactCanvasNest className="canvas-nest"/> */}
+            </>
         </div>
     )
 }

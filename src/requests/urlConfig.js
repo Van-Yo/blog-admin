@@ -3,12 +3,13 @@
  */
 class Api {
     constructor(){
-        // this.baseUrl = 'http://139.224.227.52/api'
-        this.baseUrl = 'http://localhost:3300'
+        this.baseUrl = 'http://139.224.227.52:8088/api'
+        // this.baseUrl = 'http://localhost:3300'
     }
     getApiList(){
         let apiList = {
             userLoginApi : this.baseUrl + '/user/login',    //用户登录
+            userIsLoginApi : this.baseUrl + '/user/islogin',    //用户是否登录
             userLogoutApi : this.baseUrl + '/user/logout',    //用户登出
             blogAddBlogApi : this.baseUrl + '/blogList/addBlog',     // 新增博客
             blogGetBlogCategoryApi : this.baseUrl + '/category/getCategoryList',     // 获取博客分类
