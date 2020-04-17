@@ -8,27 +8,32 @@
     border-radius: 5px;
     font-size:16px;
     height: 418px;
-    background-color: #f0f0f0;
+    background-color: #fff;
     overflow: auto;
 }
 
-.show-html h1{
-    font-size:30px;
-}
 
 .show-html h2{
-    font-size:28px;
-    border-bottom: 1px solid #cbcbcb;
+    color: #333;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 3rem !important;
+    margin-bottom: 1rem;
 }
 .show-html h3{
-    font-size:24px;
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .show-html pre{
     display: block;
-    background-color: #f0f0f0;
-    padding: 5px;
-    border-radius: 5px;
+    background-color: #283646 !important;
+    padding: .5rem !important;
+    overflow-y: auto;
+    font-weight: 300;
+    font-family: Menlo, monospace;
+    border-radius: .3rem;
 }
 .show-html pre>code{
     color: #000;
@@ -40,11 +45,13 @@
     border-radius: 5px;
     margin: 0px 3px; 
     color: #ff502c; 
+    font-size: 0.85rem;
 }
 .show-html blockquote{
-    border-left:4px solid #cbcbcb ;
-    padding: 10px 10px 10px 30px; 
-    background-color: #f8f8f8;
+    border-left: 4px solid rgb(156, 203, 250);
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 .introduce-html{
     padding:10px;
@@ -223,4 +230,7 @@ iframe{
     width: 66% !important;
     height: auto !important;
     min-width: 50px !important;
+}
+.show-html ul {
+    list-style: square inside url('../img/eg_arrow.gif')
 }
