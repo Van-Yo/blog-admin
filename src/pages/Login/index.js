@@ -40,7 +40,7 @@ function Login(props) {
         }).then(res=>{
             if(res.data.code === 0){
                 Storage.setUserInfoSs(res.data.data[0]);
-                Storage.setLoginStatus(true);
+                // Storage.setLoginStatus(true);
                 setIsLoading(false)
                 props.history.push('/home')
             }else{

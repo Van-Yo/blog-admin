@@ -11,6 +11,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 function Index(props) {
     const userInfo = Storage.getUserInfoSs();   // 本地获取个人信息
+    
     const [collapsed,setCollapsed] = useState(false);   // 控件闭合开关
     const [isLoginState,setIsLoginState] = useState();    // 登录状态
     useEffect(()=>{
@@ -29,7 +30,7 @@ function Index(props) {
             }
           }
         })
-    },[props, props.routes])
+    },[props, props.routes, userInfo])
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     }
@@ -54,7 +55,8 @@ function Index(props) {
     const loginOut = ()=> {
       UserRequest.userLogoutRequest().then((res)=>{
         if(res.data.code === 0){
-          Storage.setLoginStatus(false)
+          sessionStorage.removeItem('loginStatus');
+          sessionStorage.removeItem('userInfo');
           props.history.push('/')
         }
       })

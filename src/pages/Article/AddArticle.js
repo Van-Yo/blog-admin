@@ -6,6 +6,7 @@ import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import BlogRequest from '../../requests/modules/blog'
+import Storage from '../../utils/storage'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -18,7 +19,7 @@ const AddArticle = (props) => {
     const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
     const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
     const [introducemd,setIntroducemd] = useState()            //简介的markdown内容
-    const [introducehtml,setIntroducehtml] = useState('等待编辑') //简介的html内容
+    const [introducehtml,setIntroducehtml] = useState('预览摘要') //简介的html内容
     // const [showDate,setShowDate] = useState('2020-01-14')   //发布日期
     // const [updateDate,setUpdateDate] = useState() //修改日志的日期
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
@@ -51,7 +52,11 @@ const AddArticle = (props) => {
         const tmpId = props.match.params.id
         setArticleId(tmpId)
         if(tmpId){
+            // 如果是修改博客内容，就去调接口，拿到原博客的内容
             getBlogDetail(tmpId)
+        }else{
+            // 如果是新增博客，就先去本地拿数据
+            getBlogContentFromStorage()
         }
     },[props, props.match.params.id])
 
@@ -69,10 +74,11 @@ const AddArticle = (props) => {
         setIntroducehtml(html)
     }
     const changeTitle = (e) => {
-        setArticleTitle(e.target.value)
+        setArticleTitle(e.target.value);
     }
     const changeCategory = (value) => {
         setSelectType(value)
+        console.log(value);
     }
 
     /**
@@ -165,6 +171,7 @@ const AddArticle = (props) => {
                 }
             })
         }
+        sessionStorage.removeItem('newBlogInfo');
     }
 
     /**
@@ -184,7 +191,37 @@ const AddArticle = (props) => {
             setblogStatus(status)
         })
     }
-
+    /**
+     * 存储本地博客详情（用户书写一半，但不小心刷新了页面）
+    */
+    const setBlogContentFromStorage = () => {
+        console.log(props.route.path);
+        if(props.route.path ==='/home/article/add'){
+            Storage.setNewBlogInfo({
+                articleTitle,
+                articleContent,
+                introducemd,
+                selectedType
+            });
+        }else{
+            return
+        }
+    }
+    /**
+     * 获取本地博客详情（用户书写一半，但不小心刷新了页面）
+    */
+    const getBlogContentFromStorage = () => {
+        let newBlogInfo = Storage.getNewBlogInfo();
+        setArticleTitle(newBlogInfo && newBlogInfo.articleTitle);
+        setArticleContent(newBlogInfo && newBlogInfo.articleContent);
+        // eslint-disable-next-line no-mixed-operators
+        setMarkdownContent(newBlogInfo && newBlogInfo.articleContent && marked(newBlogInfo.articleContent) || '预览内容');
+        // eslint-disable-next-line no-mixed-operators
+        setSelectType(newBlogInfo && newBlogInfo.selectedType || '请选择分类');
+        setIntroducemd(newBlogInfo && newBlogInfo.introducemd);
+        // eslint-disable-next-line no-mixed-operators
+        setIntroducehtml(newBlogInfo && newBlogInfo.introducemd && marked(newBlogInfo.introducemd) || '预览摘要')
+    }
    
 
     return (
@@ -198,11 +235,12 @@ const AddArticle = (props) => {
                                 size="large"
                                 onChange={changeTitle}
                                 value = {articleTitle}
+                                onBlur={setBlogContentFromStorage}
                             />
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select style={{ width:'95%' }} value={selectedType} size="large" onChange={changeCategory}>
+                            <Select style={{ width:'95%' }} value={selectedType} size="large" onChange={changeCategory} onBlur={setBlogContentFromStorage}>
                                 {
                                     typeInfo.map((item,index)=>{
                                         return (
@@ -222,6 +260,7 @@ const AddArticle = (props) => {
                                 placeholder="文章内容"
                                 onChange = {changeContent}
                                 value = {articleContent}
+                                onBlur={setBlogContentFromStorage}
                                 />
                         </Col>
                         <Col span={12}>
@@ -247,6 +286,7 @@ const AddArticle = (props) => {
                                 placeholder="文章简介"
                                 onChange = {changeIntroduce}
                                 value = {introducemd}
+                                onBlur={setBlogContentFromStorage}
                             />
                             <br/><br/>
                             <div  className="introduce-html" dangerouslySetInnerHTML={{__html:introducehtml}}></div>
