@@ -20,7 +20,8 @@ class Api {
             blogGetBlogDeatilApi : this.baseUrl + '/blogList/blogDetail',     // 获取博客详情
             blogUpdateBlogDeatilApi : this.baseUrl + '/blogList/updateBlog',     // 更改博客详情
             blogFindBlogApi : this.baseUrl + '/blogList/findBlog',       // 查找博客
-            blogFindBlogBySearchApi : this.baseUrl + '/blogList/findBlogBySearch'       // 模糊查询博客
+            blogFindBlogBySearchApi : this.baseUrl + '/blogList/findBlogBySearch',       // 模糊查询博客
+            blogGetBlogCategoryListApi : this.baseUrl + '/blogList/getBlogCategoryList'    // 获取博客分类及对应数量
         };
         return apiList
     }
