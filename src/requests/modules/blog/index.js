@@ -45,5 +45,9 @@ class BlogRequest{
     findBlogRequest(data){
         return http.get(this.apiList.blogFindBlogApi,data)
     }
+    // 获取博客分类及对应数量
+    getBlogCategoryListRequest(){
+        return http.get(this.apiList.blogGetBlogCategoryListApi)
+    }
 }
 export default new BlogRequest()
