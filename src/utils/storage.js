@@ -24,12 +24,33 @@ class Storage {
         sessionStorage.setItem(key, data);
     }
 
+    localEncryptSet(key, value) {
+        let val = value;
+        if ((typeof value).toLocaleLowerCase() === 'object') {
+            val = JSON.stringify(value);
+        }
+        let data = encrypt.aesEncrypt(val, this.aesKey);
+        localStorage.setItem(key, data);
+    }
     /**
      * 解密获取
      * @param {*} key
      */
     decryptGet(key) {
         let localData = sessionStorage.getItem(key);
+        let data =
+            localData && encrypt.aesDecrypt(localData, this.aesKey);
+        let result = '';
+        try {
+            result = JSON.parse(data);
+        } catch (error) {
+            result = data;
+        }
+        return result;
+    }
+
+    localDecryptGet(key) {
+        let localData = localStorage.getItem(key);
         let data =
             localData && encrypt.aesDecrypt(localData, this.aesKey);
         let result = '';
@@ -71,12 +92,14 @@ class Storage {
     */
     setUserInfoSs(value) {
         this.encryptSet(this.userInfo, value);
+        this.localEncryptSet(this.userInfo, value);
     }
     /**
      * 取用户信息
     */
     getUserInfoSs(){
-        return this.decryptGet(this.userInfo);
+        // return this.decryptGet(this.userInfo);
+        return this.localDecryptGet(this.userInfo);
     }
     /**
      * 存用户登录状态

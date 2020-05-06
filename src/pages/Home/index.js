@@ -11,7 +11,6 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 function Index(props) {
     const userInfo = Storage.getUserInfoSs();   // 本地获取个人信息
-    
     const [collapsed,setCollapsed] = useState(false);   // 控件闭合开关
     const [isLoginState,setIsLoginState] = useState();    // 登录状态
     useEffect(()=>{
