@@ -14,7 +14,7 @@ function Login(props) {
     useEffect(()=>{
         UserRequest.userIsLoginRequest().then(res=> {
             if(res.data.code===1){
-                props.history.push('/home');
+                props.history.push('/home/controller');
             }
           })
     },[props.history])

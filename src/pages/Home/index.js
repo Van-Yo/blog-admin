@@ -1,4 +1,4 @@
-import React,{useState,useEffect,memo} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Row, Col , Layout, Menu, Breadcrumb, Icon ,Avatar} from 'antd';
 import '../../static/css/AdminIndex.css';
 import {withRouter} from 'react-router-dom';
@@ -29,7 +29,8 @@ function Index(props) {
             }
           }
         })
-    },[props, props.routes, userInfo])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[props.location])
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     }
@@ -131,4 +132,4 @@ function Index(props) {
       </Layout>
     )
 }
-export default memo(withRouter(Index))
+export default withRouter(Index)

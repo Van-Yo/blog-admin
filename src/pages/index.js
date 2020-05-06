@@ -1,9 +1,9 @@
 
-import React, { memo ,useEffect} from 'react'
+import React, { useEffect} from 'react'
 import { renderRoutes } from 'react-router-config'
 import { withRouter} from 'react-router-dom'
 
-export default memo(withRouter(function Index(props) {
+export default withRouter(function Index(props) {
     useEffect(() => {
         if(props.location.pathname === '/'){
             props.history.push('/login')
@@ -15,4 +15,4 @@ export default memo(withRouter(function Index(props) {
             {renderRoutes(props.route.route)}
         </div>
     )
-}))
+})
