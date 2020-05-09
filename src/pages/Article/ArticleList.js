@@ -8,17 +8,25 @@ const { confirm } = Modal;
 
 
 function ArticleList(props){
-    // console.log(props)
     const [list,setList]=useState([])
     useEffect(()=>{
-        let tempStatus = props.match.params.status
-        getList(tempStatus)
-    },[props.match.params.status])
-    const getList = (tempStatus) => {
+        let tempStatus = props.match.params.status;
+        let tempId = props.match.params.id;
+        getList(tempStatus,tempId)
+    },[props.match.params])
+    const getList = (tempStatus,tempId) => {
         if(tempStatus === 'released'){
-            BlogRequest.getReleasedBlogListRequest().then(res => {
-                setList(res.data);
-            })
+            // 如果传参不为空，表明是按照分类来获取文章列表 
+            if(tempId !== '0'){
+                BlogRequest.getBlogListByCategoryIdRequest({id:tempId}).then(res => {
+                    setList(res.data);
+                })
+            }else{
+                BlogRequest.getReleasedBlogListRequest().then(res => {
+                    setList(res.data);
+                })
+            }
+            
         }else if(tempStatus === 'prepared'){
             BlogRequest.getPreparedBlogListRequest().then(res => {
                 setList(res.data);

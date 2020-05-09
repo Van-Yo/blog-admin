@@ -7,7 +7,7 @@ import Controller from '../pages/Home/Controller'
 import Article from '../pages/Article'
 import AddArticle from '../pages/Article/AddArticle'
 import ArticleList from '../pages/Article/ArticleList'
-
+import ArticleListByCategory from '../pages/Article/ArticleListByCategory'
 
 export default [
     {
@@ -45,8 +45,12 @@ export default [
                                 component:AddArticle
                             },
                             {
-                                path:"/home/article/list/:status",
+                                path:"/home/article/list/:status/:id",
                                 component:ArticleList
+                            },
+                            {
+                                path:"/home/article/classifiedByCategory",
+                                component:ArticleListByCategory
                             },
                         ]
                     }

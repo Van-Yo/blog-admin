@@ -21,7 +21,8 @@ class Api {
             blogUpdateBlogDeatilApi : this.baseUrl + '/blogList/updateBlog',     // 更改博客详情
             blogFindBlogApi : this.baseUrl + '/blogList/findBlog',       // 查找博客
             blogFindBlogBySearchApi : this.baseUrl + '/blogList/findBlogBySearch',       // 模糊查询博客
-            blogGetBlogCategoryListApi : this.baseUrl + '/blogList/getBlogCategoryList'    // 获取博客分类及对应数量
+            blogGetBlogCategoryListApi : this.baseUrl + '/blogList/getBlogCategoryList',    // 获取博客分类及对应数量
+            blogGetBlogListByCategoryIdApi : this.baseUrl + '/blogList/getBlogListByCategoryId' //按照分类获取已发表博客
         };
         return apiList
     }
