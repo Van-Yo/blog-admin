@@ -49,5 +49,9 @@ class BlogRequest{
     getBlogCategoryListRequest(){
         return http.get(this.apiList.blogGetBlogCategoryListApi)
     }
+    //按照分类获取已发表博客
+    getBlogListByCategoryIdRequest(data){
+        return http.get(this.apiList.blogGetBlogListByCategoryIdApi,data)
+    }
 }
 export default new BlogRequest()

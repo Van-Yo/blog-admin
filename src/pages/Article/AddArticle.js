@@ -1,4 +1,4 @@
-import React,{useState,useEffect,memo} from 'react';
+import React,{useState,useEffect} from 'react';
 import '../../static/css/AddArticle.css'
 import {Row,Col,Input,Select,Button,message} from 'antd'
 import {withRouter} from 'react-router-dom';
@@ -305,4 +305,4 @@ const AddArticle = (props) => {
     );
 }
 
-export default memo(withRouter(AddArticle));
+export default withRouter(AddArticle)

@@ -10,6 +10,7 @@ import { message } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 function Index(props) {
+  console.log(props.history.location.pathname)
     const userInfo = Storage.getUserInfoSs();   // 本地获取个人信息
     const [collapsed,setCollapsed] = useState(false);   // 控件闭合开关
     const [isLoginState,setIsLoginState] = useState();    // 登录状态
@@ -35,17 +36,7 @@ function Index(props) {
         setCollapsed(collapsed)
     }
     const handleClickArticle = e=>{
-      if(e.key==='/home/article/add'){
-        props.history.push('/home/article/add')
-      }else if(e.key==='/home/article/list/released'){
-        props.history.push('/home/article/list/released')
-      }else if(e.key==='/home/article/list/prepared'){
-        props.history.push('/home/article/list/prepared')
-      }else if(e.key==='/home/controller'){
-        props.history.push('/home/controller')
-      }else if(e.key==='/home/reviews'){
-        props.history.push('/home/reviews')
-      }
+      props.history.push(e.key)
   
     }
     const login = ()=>{
@@ -84,8 +75,9 @@ function Index(props) {
                   }
                 >
                   <Menu.Item key="/home/article/add">添加文章</Menu.Item>
-                  <Menu.Item key="/home/article/list/released">文章列表</Menu.Item>
-                  <Menu.Item key="/home/article/list/prepared">草稿箱</Menu.Item>
+                  <Menu.Item key="/home/article/classifiedByCategory">文章分类</Menu.Item>
+                  <Menu.Item key="/home/article/list/released/0">文章列表</Menu.Item>
+                  <Menu.Item key="/home/article/list/prepared/0">草稿箱</Menu.Item>
                 </SubMenu>
                 <Menu.Item key="/home/reviews">
                   <Icon type="message" />
@@ -103,9 +95,10 @@ function Index(props) {
                   <Breadcrumb.Item>{props.history.location.pathname === '/home/controller' && '工作台'}</Breadcrumb.Item>
                   <Breadcrumb.Item>{props.history.location.pathname.indexOf('/home/article') !== -1 && '文章管理'}</Breadcrumb.Item>
                   <Breadcrumb.Item>{props.history.location.pathname === '/home/article/add' && '添加文章'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/list/released' && '文章列表'}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/list/prepared' && '草稿箱'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname.includes('/home/article/list/released') && '文章列表'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/list/prepared/0' && '草稿箱'}</Breadcrumb.Item>
                   <Breadcrumb.Item>{props.history.location.pathname === '/home/reviews' && '留言管理'}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.history.location.pathname === '/home/article/classifiedByCategory' && '文章分类'}</Breadcrumb.Item>
                 </Breadcrumb>
               </Col>
               <Col span={8}>
