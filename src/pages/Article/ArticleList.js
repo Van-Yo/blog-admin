@@ -43,7 +43,7 @@ function ArticleList(props){
                     if(res.data.code===0){
                         message.success('文章删除成功')
                     }
-                    getList(props.match.params.status)
+                    getList(props.match.params.status,props.match.params.id)
                 })
             },
             onCancel(){
@@ -86,7 +86,7 @@ function ArticleList(props){
                 BlogRequest.updateBlogDetailRequest(data).then(res => {
                     if(res.data.code === 0){
                         message.success('发布成功')
-                        props.history.push('/home/article/list/released')
+                        props.history.push('/home/article/list/released/0')
                     }else{
                         message.error('发布失败')
                         return false
