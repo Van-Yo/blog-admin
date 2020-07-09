@@ -20,6 +20,9 @@
     margin-top: 3rem !important;
     margin-bottom: 1rem;
 }
+.show-html h2:first-child{
+    margin-top: 0 !important;
+}
 .show-html h3{
     color: #333;
     font-size: 1rem;
@@ -46,6 +49,18 @@
     margin: 0px 3px; 
     color: #ff502c; 
     font-size: 0.85rem;
+}
+.show-html p code {
+    /* display: inline-block; */
+    /* background-color: #f3f3f3; */
+    border: 0;
+    border-radius: 0.3rem;
+    font-size: 0.85rem;
+    /* color: #4f4f4f; */
+    /* margin: 0 0.3rem; */
+    background-color: #fff5f5;
+    color: #ff502c;
+    padding: 0 .4rem;
 }
 .show-html blockquote{
     border-left: 4px solid rgb(156, 203, 250);
