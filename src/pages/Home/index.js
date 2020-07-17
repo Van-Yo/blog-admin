@@ -10,7 +10,7 @@ import { message } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 function Index(props) {
-  console.log(props.history.location.pathname)
+    // console.log(props.history.location.pathname)
     const userInfo = Storage.getUserInfoSs();   // 本地获取个人信息
     const [collapsed,setCollapsed] = useState(false);   // 控件闭合开关
     const [isLoginState,setIsLoginState] = useState();    // 登录状态

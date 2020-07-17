@@ -22,7 +22,8 @@ class Api {
             blogFindBlogApi : this.baseUrl + '/blogList/findBlog',       // 查找博客
             blogFindBlogBySearchApi : this.baseUrl + '/blogList/findBlogBySearch',       // 模糊查询博客
             blogGetBlogCategoryListApi : this.baseUrl + '/blogList/getBlogCategoryList',    // 获取博客分类及对应数量
-            blogGetBlogListByCategoryIdApi : this.baseUrl + '/blogList/getBlogListByCategoryId' //按照分类获取已发表博客
+            blogGetBlogListByCategoryIdApi : this.baseUrl + '/blogList/getBlogListByCategoryId', //按照分类获取已发表博客
+            blogGetReleasedBlogNumberByMonthApi : this.baseUrl + '/blogList/getReleasedBlogNumberByMonth' //按照月份获取已发表博客数量
         };
         return apiList
     }
