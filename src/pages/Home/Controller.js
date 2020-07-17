@@ -74,28 +74,32 @@ const Home = () => {
     }
     // 博客发表统计，线状图
     let getLineEchartsData = () => {
-        let lineChart = echarts.init(document.getElementById('line-main'));
-        // 绘制图表
-        
-        lineChart.setOption({
-            title: { text: '博客发表统计' },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b}: {c} '
-            },
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                name: '访问来源',
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line'
-            }]
+        BlogRequest.blogGetReleasedBlogNumberByMonthRequest().then(res=>{
+            console.log(res)
+            let lineChart = echarts.init(document.getElementById('line-main'));
+            // 绘制图表
+            
+            lineChart.setOption({
+                title: { text: '博客发表统计' },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}月: {c} 篇'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: '访问来源',
+                    data: res.data,
+                    type: 'line'
+                }]
+            })
         })
+        
     }
     return (
         <div>
